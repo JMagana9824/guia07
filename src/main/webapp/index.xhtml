@@ -11,44 +11,83 @@
          <f:view>
              <h:form>
                  <h1><h:outputText value="Categorias"/></h1>
-                  <h:form>
+                
              <p:selectBooleanCheckbox id="chkUsados" value="#{categoriaBean.activo}" itemLabel="Motrar los no utilizados">
              <p:ajax  update="@all" listener="#{categoriaBean.chkCambio()}"/>
                     </p:selectBooleanCheckbox>
-                             
-                 </h:form>
-                 <p:dataTable value="#{categoriaBean.lista}" var="item" rows="3" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                              rowsPerPageTemplate="3,5,10">
-                     <p:column>
-                         <f:facet name="header">
-                             <h:outputText value="IdCategoria"/>
-                         </f:facet>
-                         <h:outputText value="#{item.idCategoria}"/>
-                     </p:column>
-                     <p:column >
-                         <f:facet name="header">
-                             <h:outputText value="Nombre"/>
-                         </f:facet>
-                         <h:outputText value="#{item.nombre}"/>
-                     </p:column>
-                     <p:column>
-                         <f:facet name="header">
-                             <h:outputText value="Activo"/>
-                         </f:facet>
-                         <h:outputText value="#{item.activo}"/>
-                     </p:column>
-                     <p:column>
-                         <f:facet name="header">
-                             <h:outputText value="Descripcion"/>
-                         </f:facet>
-                         <h:outputText value="#{item.descripcion}"/>
-                     </p:column>
-                 </p:dataTable>
-             </h:form>
 
+                 </h:form>
 
              <br/>
-             <h:form id="myForm">
+             <h:form>
+                 <p:dataTable value="#{categoriaBean.lista}" var="item"  widgetVar="catTable" rows="10" paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="3,5,10"
+                 selectionMode="single" selection="#{categoriaBean.selectedCat}" rowKey="#{item.idCategoria}"
+                 emptyMessage="No cars found with given criteria" filteredValue="#{categoriaBean.filtroCat}">
+                     
+                     <p:ajax event="rowSelect" update="@form:catDetail" oncomplete="PF('catDialog').show()" />
+ 
+        <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="Busqueda General:" />
+                <p:inputText id="globalFilter" onkeyup="PF('catTable').filter()" style="width:150px" />
+            </p:outputPanel>
+        </f:facet>
+ 
+       
+ 
+        <p:column headerText="IdCategoria" filterBy="#{item.idCategoria}" sortBy="#{item.idCategoria}" filterMatchMode="contains">
+            <h:outputText value="#{item.idCategoria}" />
+        </p:column>
+ 
+        <p:column headerText="nombre" filterBy="#{item.nombre}" sortBy="#{item.nombre}" filterMatchMode="startsWith">
+            <h:outputText value="#{item.nombre}" />
+        </p:column>
+                     
+                     <p:column headerText="Activo" filterBy="#{item.activo}" sortBy="#{item.activo}" filterMatchMode="startsWith">
+                         <h:outputText value="#{item.activo}" />
+        </p:column>
+ 
+        <p:column headerText="Descripcion" filterBy="#{item.descripcion}" sortBy="#{item.descripcion}" filterMatchMode="startsWith">
+            
+            <h:outputText value="#{item.descripcion}" />
+        </p:column>
+
+        
+        
+    </p:dataTable>
+ 
+    <p:dialog header="Cat Info" widgetVar="catDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="catDetail" style="text-align:center;">
+            <p:panelGrid  columns="2" rendered="#{not empty categoriaBean.selectedCat}" columnClasses="label,value">
+               
+ 
+                <h:outputText value="Id Categoria:" />
+                <h:outputText value="#{categoriaBean.selectedCat.idCategoria}" />
+ 
+                <h:outputText value="Nombre" />
+                <h:outputText value="#{categoriaBean.selectedCat.nombre}" />
+ 
+                <h:outputText value="Activo" />
+                <h:outputText value="#{categoriaBean.selectedCat.activo}" />
+                <h:outputText value="Descripcion" />
+                <h:outputText value="#{categoriaBean.selectedCat.descripcion}" />
+ 
+               
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+</h:form>
+             
+             
+             
+             
+             
+             
+             
+             
+              <h:form id="myForm">
             <h:outputLabel><strong>Crear nuevo registro</strong></h:outputLabel>
             <p:growl id="growl" showDetail="true" sticky="true"/>
             <br/>
@@ -63,7 +102,9 @@
             <p:commandButton  value="Guardar" actionListener="#{categoriaBean.crear()}" update="@all"/>
             <p:commandButton  value="limpiar" actionListener="#{categoriaBean.limpiar()}" update="@all"/>
              
-        </h:form>             
+            
+        </h:form>
+             
              
         </f:view>
         <br/>

@@ -33,20 +33,95 @@ public class CategoriaBean implements Serializable {
 
     public CategoriaBean() {
     }
-    boolean activo;
 
-    public boolean isActivo() {
+    
+    
+    boolean activo;
+    
+    @EJB
+    CategoriaFacadeLocal categoria;
+     List<Categoria> lista= new ArrayList<>();
+    Categoria cat =new Categoria();
+    List<Categoria> filtroCat= new ArrayList<>();
+
+    public List<Categoria> getFiltroCat() {
+        return filtroCat;
+    }
+
+    public void setFiltroCat(List<Categoria> filtroCat) {
+        this.filtroCat = filtroCat;
+    }
+    
+    Categoria selectedCat;
+
+    public Categoria getSelectedCat() {
+        return selectedCat;
+    }
+
+    public void setSelectedCat(Categoria selectedCat) {
+        this.selectedCat = selectedCat;
+    }
+
+ public void crear(){
+     try {
+         categoria.create(cat);
+         init();
+         addMessage("Registro Ingresado");
+       
+     } catch (Exception e) {
+         System.out.println("Error: "+ e);
+         addMessage("Error registro invalido !");
+     }
+      
+    }
+ public void limpiar(){
+       cat= new Categoria();
+ }
+     
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+   
+    public void chkCambio(){
+        if(activo == true){
+            this.lista = obtenerUtilizados();
+        }else{
+            init();  
+        }
+    }
+        private List<Categoria> obtenerUtilizados() {
+        List salida;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("uesocc.edu.sv.ingenieria.prn335_webproject3_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+        Query c = em.createNamedQuery("Categoria.asignados");
+        salida = c.getResultList();
+        
+        if(salida != null){
+        return salida;
+        }else{
+            return Collections.EMPTY_LIST;
+        }
+        }
+    
+   
+    @PostConstruct
+    public void init(){
+        if(lista!= null){
+            this.lista=categoria.findAll();
+        }else {
+            this.lista=Collections.EMPTY_LIST;
+        }
+    }
+
+   
+public boolean isActivo() {
         return activo;
     }
 
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-    
-    @EJB
-    CategoriaFacadeLocal categoria;
-     List<Categoria> lista= new ArrayList<>();
-    Categoria cat =new Categoria();
 
     public CategoriaFacadeLocal getCategoria() {
         return categoria;
@@ -71,60 +146,6 @@ public class CategoriaBean implements Serializable {
     public void setCat(Categoria cat) {
         this.cat = cat;
     }
- public void crear(){
-     try {
-         categoria.create(cat);
-         llenar();
-         addMessage("Registro Ingresado");
-       
-     } catch (Exception e) {
-         System.out.println("Error: "+ e);
-         addMessage("Error registro invalido !");
-     }
-      
-    }
- public void limpiar(){
-       cat= new Categoria();
- }
-     
-    public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-   
-    public void chkCambio(){
-        if(activo == true){
-            this.lista = obtenerUtilizados();
-        }else{
-            llenar();  
-        }
-    }
-        private List<Categoria> obtenerUtilizados() {
-        List salida;
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("uesocc.edu.sv.ingenieria.prn335_webproject3_war_1.0-SNAPSHOTPU");
-        EntityManager em = emf.createEntityManager();
-        Query c = em.createNamedQuery("Categoria.asignados");
-        salida = c.getResultList();
-        
-        if(salida != null){
-        return salida;
-        }else{
-            return Collections.EMPTY_LIST;
-        }
-        }
-    
-   
-    @PostConstruct
-    public void llenar(){
-        if(lista!= null){
-            this.lista=categoria.findAll();
-        }else {
-            this.lista=Collections.EMPTY_LIST;
-        }
-    }
-
-   
-
    
     
 }
