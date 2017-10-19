@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import org.primefaces.event.SelectEvent;
 import sv.edu.uesocc.ingenieria.prn335_2017.datos.definiciones.Categoria;
 import sv.edu.uesocc.ingenieria.prn335_2017.datos.acceso.CategoriaFacadeLocal;
 
@@ -44,10 +45,16 @@ public class CategoriaBean implements Serializable {
     Categoria cat =new Categoria();
     List<Categoria> filtroCat= new ArrayList<>();
 
+
+     public void onRowSelect(SelectEvent event) {
+       cat = (Categoria) event.getObject();
+    }
+     
+     
+     
     public List<Categoria> getFiltroCat() {
         return filtroCat;
     }
-
     public void setFiltroCat(List<Categoria> filtroCat) {
         this.filtroCat = filtroCat;
     }
@@ -74,6 +81,30 @@ public class CategoriaBean implements Serializable {
      }
       
     }
+ public void modificar(){
+     try {
+         categoria.edit(cat);
+        init();
+        
+     } catch (Exception e) {
+         System.out.println("Error: "+ e);
+         addMessage("Error al modificar !");
+     }
+ 
+ }
+ 
+ public void eliminar(){
+     try {
+         categoria.remove(cat);
+         init();
+     } catch (Exception e) {
+         System.out.println("Error: "+ e);
+         addMessage("Error al Eliminar registro !");
+     }
+     
+ }
+ 
+ 
  public void limpiar(){
        cat= new Categoria();
  }
