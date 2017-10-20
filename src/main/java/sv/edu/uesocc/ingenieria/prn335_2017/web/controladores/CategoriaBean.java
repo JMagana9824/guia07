@@ -24,32 +24,53 @@ import org.primefaces.event.SelectEvent;
 import sv.edu.uesocc.ingenieria.prn335_2017.datos.definiciones.Categoria;
 import sv.edu.uesocc.ingenieria.prn335_2017.datos.acceso.CategoriaFacadeLocal;
 
-/**
- *
- * @author kevin
+/**Declaracion de ManagedBean 
+* @author kevin
+* 
  */
+
 @Named
 @ViewScoped
 public class CategoriaBean implements Serializable {
 
     public CategoriaBean() {
     }
+    
+    boolean activo,visible=true;
 
-    
-    
-    boolean activo;
-    
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+    /**
+     * inyeccciones EJB
+     */
     @EJB
     CategoriaFacadeLocal categoria;
      List<Categoria> lista= new ArrayList<>();
     Categoria cat =new Categoria();
     List<Categoria> filtroCat= new ArrayList<>();
 
-
+/**metodo para seleccionar componentes de mi tabla
+ * selecion  d objetos
+ * @param event 
+ */
      public void onRowSelect(SelectEvent event) {
        cat = (Categoria) event.getObject();
-    }
+        visible=false;
+     }
+  
+     public void cancelar(){
+         cat= new Categoria();
+         visible=true;
+     }
      
+     public void nuevo(){
+         visible=false;
+     }
      
      
     public List<Categoria> getFiltroCat() {
@@ -69,10 +90,16 @@ public class CategoriaBean implements Serializable {
         this.selectedCat = selectedCat;
     }
 
+   /**
+    * metodo para crear nuevos registros
+    en la base de datos
+    */
+    
  public void crear(){
      try {
          categoria.create(cat);
-         init();
+         llenar();
+         cat=new Categoria();
          addMessage("Registro Ingresado");
        
      } catch (Exception e) {
@@ -81,22 +108,34 @@ public class CategoriaBean implements Serializable {
      }
       
     }
+ 
+ /**
+  * modifica o edita registros de
+  * la base de datos
+  */
+ 
+ 
  public void modificar(){
      try {
          categoria.edit(cat);
-        init();
-        
+        llenar();
+        cat=new Categoria();
+        visible=true;
      } catch (Exception e) {
          System.out.println("Error: "+ e);
          addMessage("Error al modificar !");
      }
  
  }
- 
+ /**
+  * eliminar registros de la base de datos
+  */
  public void eliminar(){
      try {
          categoria.remove(cat);
-         init();
+         llenar();
+         cat=new Categoria();
+         visible=true;
      } catch (Exception e) {
          System.out.println("Error: "+ e);
          addMessage("Error al Eliminar registro !");
@@ -104,23 +143,32 @@ public class CategoriaBean implements Serializable {
      
  }
  
- 
- public void limpiar(){
-       cat= new Categoria();
- }
+/**
+ * Mensaje de advertencia
+ * 
+ * @param summary
+ */
      
     public void addMessage(String summary) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-   
+   /**
+    * controla la busqueda de las categorias no utilizadas
+    * y utilizadas al ser seleccionado o no.
+    */
     public void chkCambio(){
         if(activo == true){
             this.lista = obtenerUtilizados();
         }else{
-            init();  
+            llenar();  
         }
     }
+    /**
+     * Sirve para filtrar las categorias que no han sido asignadas
+     * en otras tablas
+     * @return las categorias no asinadas
+     */
         private List<Categoria> obtenerUtilizados() {
         List salida;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("uesocc.edu.sv.ingenieria.prn335_webproject3_war_1.0-SNAPSHOTPU");
@@ -134,17 +182,23 @@ public class CategoriaBean implements Serializable {
             return Collections.EMPTY_LIST;
         }
         }
-    
-   
-    @PostConstruct
-    public void init(){
+        
+        /**
+         * metodo que busca todos los registros
+         * de la base de datos y los coloca en una lista
+         */
+   public void llenar(){
         if(lista!= null){
             this.lista=categoria.findAll();
         }else {
             this.lista=Collections.EMPTY_LIST;
         }
+   }
+    @PostConstruct
+    public void init(){
+       llenar();
     }
-
+    
    
 public boolean isActivo() {
         return activo;

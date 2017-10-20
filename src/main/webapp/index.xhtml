@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Categorias de Posts</title>
     </h:head>
     <h:body>
          <f:view>
@@ -19,7 +19,7 @@
                  </h:form>
 
              <br/>
-             <h:form>
+             <h:form id="frm1">
                  <p:dataTable id="catdata" value="#{categoriaBean.lista}" var="item"  widgetVar="catTable" rows="3" paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  rowsPerPageTemplate="3,5,10"
@@ -52,26 +52,40 @@
         
     </p:dataTable>
 </h:form>
-         
-              <h:form id="myForm">
+             
+             <p:panel>
+                  <h:form id="myForm">
             <h:outputLabel><strong>Crear nuevo registro</strong></h:outputLabel>
             <p:growl id="growl" showDetail="true" sticky="true"/>
             <br/>
             
             <br/>
-            <p:panelGrid id="grid_input" columns="3">
-                <p:outputLabel><strong>Id Categoria</strong></p:outputLabel><p:inputText id="idtxt" value="#{categoriaBean.cat.idCategoria}" disabled="true"/><br/>
-                <p:outputLabel><strong>Nombre</strong></p:outputLabel><p:inputText title="nombre" id="nombretxt" value="#{categoriaBean.cat.nombre}"/> <br/>
-                <p:outputLabel><strong>Activo</strong></p:outputLabel><p:selectBooleanCheckbox id="activocbx" value="#{categoriaBean.cat.activo}"/><br/>
-                <p:outputLabel><strong>Descripcion</strong></p:outputLabel><p:inputTextarea  title="descripcion" id="Descripcion" value="#{categoriaBean.cat.descripcion}"/><br/>
+            
+            <p:panelGrid id="grid_input" columns="2" style="border: none">
+                <p:outputLabel ><strong>Id Categoria</strong></p:outputLabel><p:inputText id="idtxt" value="#{categoriaBean.cat.idCategoria}" disabled="true"/>
+           
+                <p:outputLabel><strong>Nombre</strong></p:outputLabel><p:inputText title="nombre" id="nombretxt" value="#{categoriaBean.cat.nombre}"/> 
+                <p:outputLabel><strong>Activo</strong></p:outputLabel><p:selectBooleanCheckbox id="activocbx" value="#{categoriaBean.cat.activo}"/>
+                <p:outputLabel><strong>Descripcion</strong></p:outputLabel><p:inputTextarea  title="descripcion" id="Descripcion" value="#{categoriaBean.cat.descripcion}"/>
             </p:panelGrid>
-            <p:commandButton  value="Guardar" actionListener="#{categoriaBean.crear()}" update="@all"/>
-            <p:commandButton  value="Cancelar" actionListener="#{categoriaBean.limpiar()}" update="@all"/>
-            <p:commandButton  value="Editar" actionListener="#{categoriaBean.modificar()}" update="@all"/>
-            <p:commandButton  value="Eliminar" actionListener="#{categoriaBean.eliminar()}" update="@all"/>
+            
+            <p:panel visible="#{categoriaBean.visible}" style="border: none">
+             <p:commandButton  value="Agregar" actionListener="#{categoriaBean.crear()}" update="@all"/>
+           
+             <p:commandButton  value="limpiar" type="reset" update="@all"/>
              
+            </p:panel>
+            <p:panel visible="#{!categoriaBean.visible}" style="border: none">
+            <p:commandButton  value="Cancelar" actionListener="#{categoriaBean.cancelar()}" update="@all"/>
+            <p:commandButton  value="Editar" actionListener="#{categoriaBean.modificar()}"  update="@all"/>
+            <p:commandButton  value="Eliminar" actionListener="#{categoriaBean.eliminar()}"  update="@all"/>
+             
+            </p:panel>
             
         </h:form>
+             </p:panel>
+             
+             
              
              
         </f:view>

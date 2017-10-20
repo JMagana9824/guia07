@@ -11,4 +11,5 @@
         <property name="driverClass" value="org.postgresql.Driver"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="java:app/postgres" object-type="user" pool-name="post-gre-sql_posts_mortal2017Pool"/>
+    <jdbc-resource enabled="true" jndi-name="java:app/jdbc_post" object-type="user" pool-name="post-gre-sql_posts_mortal2017Pool"/>
 </resources>
