@@ -62,11 +62,11 @@
             <br/>
             
             <p:panelGrid id="grid_input" columns="2" style="border: none">
-                <p:outputLabel ><strong>Id Categoria</strong></p:outputLabel><p:inputText id="idtxt" value="#{categoriaBean.cat.idCategoria}" disabled="true"/>
+                <p:outputLabel ><strong>Id Categoria</strong></p:outputLabel><p:inputText id="idtxt" value="#{categoriaBean.catEntity.idCategoria}" disabled="true"/>
            
-                <p:outputLabel><strong>Nombre</strong></p:outputLabel><p:inputText title="nombre" id="nombretxt" value="#{categoriaBean.cat.nombre}"/> 
-                <p:outputLabel><strong>Activo</strong></p:outputLabel><p:selectBooleanCheckbox id="activocbx" value="#{categoriaBean.cat.activo}"/>
-                <p:outputLabel><strong>Descripcion</strong></p:outputLabel><p:inputTextarea  title="descripcion" id="Descripcion" value="#{categoriaBean.cat.descripcion}"/>
+                <p:outputLabel><strong>Nombre</strong></p:outputLabel><p:inputText title="nombre" id="nombretxt" value="#{categoriaBean.catEntity.nombre}"/> 
+                <p:outputLabel><strong>Activo</strong></p:outputLabel><p:selectBooleanCheckbox id="activocbx" value="#{categoriaBean.catEntity.activo}"/>
+                <p:outputLabel><strong>Descripcion</strong></p:outputLabel><p:inputTextarea  title="descripcion" id="Descripcion" value="#{categoriaBean.catEntity.descripcion}"/>
             </p:panelGrid>
             
             <p:panel visible="#{categoriaBean.visible}" style="border: none">

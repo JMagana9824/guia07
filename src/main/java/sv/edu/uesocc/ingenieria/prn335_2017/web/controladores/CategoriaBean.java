@@ -5,7 +5,6 @@
  */
 package sv.edu.uesocc.ingenieria.prn335_2017.web.controladores;
 
-import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +20,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import org.primefaces.event.SelectEvent;
+import sv.edu.uesocc.ingenieria.prn335_2017.datos.acceso.AbstractGen;
 import sv.edu.uesocc.ingenieria.prn335_2017.datos.definiciones.Categoria;
 import sv.edu.uesocc.ingenieria.prn335_2017.datos.acceso.CategoriaFacadeLocal;
 
@@ -31,7 +31,7 @@ import sv.edu.uesocc.ingenieria.prn335_2017.datos.acceso.CategoriaFacadeLocal;
 
 @Named
 @ViewScoped
-public class CategoriaBean implements Serializable {
+public class CategoriaBean extends BeanGenerico<Categoria> implements Serializable {
 
     public CategoriaBean() {
     }
@@ -50,9 +50,40 @@ public class CategoriaBean implements Serializable {
      */
     @EJB
     CategoriaFacadeLocal categoria;
-     List<Categoria> lista= new ArrayList<>();
+    Categoria catEntity;
     Categoria cat =new Categoria();
     List<Categoria> filtroCat= new ArrayList<>();
+    
+    
+    
+    
+      @Override
+    public Categoria getEntity() {
+        return catEntity;
+    }
+    
+    @Override
+    protected AbstractGen<Categoria> getFacadeLocal() {
+        return null; //categoria
+      
+    }
+    
+    @Override
+    public void modificar() {
+        super.modificar(); 
+       
+    }
+
+    @Override
+    public void eliminar() {
+        super.eliminar(); 
+       
+    }
+
+    @Override
+    public void crear() {
+        super.crear(); 
+    }
 
 /**metodo para seleccionar componentes de mi tabla
  * selecion  d objetos
@@ -90,65 +121,6 @@ public class CategoriaBean implements Serializable {
         this.selectedCat = selectedCat;
     }
 
-   /**
-    * metodo para crear nuevos registros
-    en la base de datos
-    */
-    
- public void crear(){
-     try {
-         categoria.create(cat);
-         llenar();
-         cat=new Categoria();
-         addMessage("Registro Ingresado");
-       
-     } catch (Exception e) {
-         System.out.println("Error: "+ e);
-         addMessage("Error registro invalido !");
-     }
-      
-    }
- 
- /**
-  * modifica o edita registros de
-  * la base de datos
-  */
- 
- 
- public void modificar(){
-     try {
-         categoria.edit(cat);
-        llenar();
-        cat=new Categoria();
-        visible=true;
-     } catch (Exception e) {
-         System.out.println("Error: "+ e);
-         addMessage("Error al modificar !");
-     }
- 
- }
- /**
-  * eliminar registros de la base de datos
-  */
- public void eliminar(){
-     try {
-         categoria.remove(cat);
-         llenar();
-         cat=new Categoria();
-         visible=true;
-     } catch (Exception e) {
-         System.out.println("Error: "+ e);
-         addMessage("Error al Eliminar registro !");
-     }
-     
- }
- 
-/**
- * Mensaje de advertencia
- * 
- * @param summary
- */
-     
     public void addMessage(String summary) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
         FacesContext.getCurrentInstance().addMessage(null, message);
@@ -183,29 +155,16 @@ public class CategoriaBean implements Serializable {
         }
         }
         
-        /**
-         * metodo que busca todos los registros
-         * de la base de datos y los coloca en una lista
-         */
-   public void llenar(){
-        if(lista!= null){
-            this.lista=categoria.findAll();
-        }else {
-            this.lista=Collections.EMPTY_LIST;
-        }
-   }
+      
+   
     @PostConstruct
     public void init(){
-       llenar();
+     //llenar
     }
     
    
 public boolean isActivo() {
         return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
     }
 
     public CategoriaFacadeLocal getCategoria() {
@@ -216,12 +175,12 @@ public boolean isActivo() {
         this.categoria = categoria;
     }
 
-    public List<Categoria> getLista() {
-        return lista;
+    public Categoria getCatEntity() {
+        return catEntity;
     }
 
-    public void setLista(List<Categoria> lista) {
-        this.lista = lista;
+    public void setCatEntity(Categoria catEntity) {
+        this.catEntity = catEntity;
     }
 
     public Categoria getCat() {
@@ -231,6 +190,14 @@ public boolean isActivo() {
     public void setCat(Categoria cat) {
         this.cat = cat;
     }
-   
-    
+
+    public List<Categoria> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<Categoria> lista) {
+        this.lista = lista;
+    }
+
+  
 }
