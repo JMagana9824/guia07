@@ -27,46 +27,18 @@
 
              <br/>
              <h:form id="frm1">
-     <p:dataTable id="catdata" value="#{categoriaBean.lista}" var="item"  widgetVar="catTable" rows="3" paginator="true"
-                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                 rowsPerPageTemplate="3,5,10"
-                 selectionMode="single" selection="#{categoriaBean.selectedCat}" rowKey="#{item.idCategoria}"
-                 emptyMessage="No hay categorias seleccionadas">
-                     
-          <p:ajax event="rowSelect" listener="#{categoriaBean.onRowSelect}" update=":myForm" />
- 
-       
- 
-        <p:column headerText="IdCategoria" filterBy="#{item.idCategoria}" sortBy="#{item.idCategoria}" filterMatchMode="contains">
-            <h:outputText value="#{item.idCategoria}" />
-        </p:column>
- 
-        <p:column headerText="nombre" filterBy="#{item.nombre}" sortBy="#{item.nombre}" filterMatchMode="startsWith">
-            <h:outputText value="#{item.nombre}" />
-        </p:column>
-                     
-                     <p:column headerText="Activo" filterBy="#{item.activo}" sortBy="#{item.activo}" filterMatchMode="startsWith">
-                         <h:outputText value="#{item.activo}" />
-        </p:column>
- 
-        <p:column headerText="Descripcion" filterBy="#{item.descripcion}" sortBy="#{item.descripcion}" filterMatchMode="startsWith">
-            
-            <h:outputText value="#{item.descripcion}" />
-        </p:column>
-
-        
-    </p:dataTable>
-</h:form>
+                 <componentes:table managedBean="#{categoriaBean}"/>
+              </h:form>
              
              
     <h:form id="myForm">
                      
                       <p:panel style="border: none">
                           <componentes:botonesRegistro managedBean="#{categoriaBean}"/>
-                      <br/>
                       </p:panel>
+            <br/>
                       
-        <p:panel visible="#{categoriaBean.ver}" style="border: none" >
+            <p:panel visible="#{categoriaBean.ver}" style="border: none" >
                 
             <p:panelGrid id="grid_input" columns="2" style="border: none">
                 <p:outputLabel ><strong>Id Categoria</strong></p:outputLabel><p:inputText id="idtxt" value="#{categoriaBean.catEntity.idCategoria}" disabled="true"/>
