@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author kevin
  */
-public interface AbstractGen<T> {
+public interface AbstractInterface<T> {
      void create(T e);
 
     void edit(T e);

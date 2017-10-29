@@ -3,32 +3,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:componentes="http://xmlns.jcp.org/jsf/composite/componentes"
+      xmlns:pm="http://primefaces.org/mobile">
     <h:head>
         <title>Categorias de Posts</title>
     </h:head>
     <h:body>
+        <ui:composition template="./templates/plantilla.xhtml">
+            
+            
+            <ui:define name="top">
+               
+            </ui:define>
+            
+            
+            
+            <ui:define name="content">
          <f:view>
-             <h:form>
-                 <h1><h:outputText value="Categorias"/></h1>
-                
-             <p:selectBooleanCheckbox id="chkUsados" value="#{categoriaBean.activo}" itemLabel="Motrar los no utilizados">
-             <p:ajax  update="@all" listener="#{categoriaBean.chkCambio()}"/>
-                    </p:selectBooleanCheckbox>
-
-                 </h:form>
+                 
+             <h1 align="center">Categorias</h1>
 
              <br/>
              <h:form id="frm1">
-                 <p:dataTable id="catdata" value="#{categoriaBean.lista}" var="item"  widgetVar="catTable" rows="3" paginator="true"
+     <p:dataTable id="catdata" value="#{categoriaBean.lista}" var="item"  widgetVar="catTable" rows="3" paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  rowsPerPageTemplate="3,5,10"
                  selectionMode="single" selection="#{categoriaBean.selectedCat}" rowKey="#{item.idCategoria}"
                  emptyMessage="No hay categorias seleccionadas">
                      
-                     <p:ajax event="rowSelect" listener="#{categoriaBean.onRowSelect}" update=":myForm" />
- 
-       
+          <p:ajax event="rowSelect" listener="#{categoriaBean.onRowSelect}" update=":myForm" />
  
        
  
@@ -53,43 +58,46 @@
     </p:dataTable>
 </h:form>
              
-             <p:panel>
-                  <h:form id="myForm">
-            <h:outputLabel><strong>Crear nuevo registro</strong></h:outputLabel>
-            <p:growl id="growl" showDetail="true" sticky="true"/>
-            <br/>
-            
-            <br/>
-            
+             
+    <h:form id="myForm">
+                     
+                      <p:panel style="border: none">
+                          <componentes:botonesRegistro managedBean="#{categoriaBean}"/>
+                      <br/>
+                      </p:panel>
+                      
+        <p:panel visible="#{categoriaBean.ver}" style="border: none" >
+                
             <p:panelGrid id="grid_input" columns="2" style="border: none">
                 <p:outputLabel ><strong>Id Categoria</strong></p:outputLabel><p:inputText id="idtxt" value="#{categoriaBean.catEntity.idCategoria}" disabled="true"/>
-           
                 <p:outputLabel><strong>Nombre</strong></p:outputLabel><p:inputText title="nombre" id="nombretxt" value="#{categoriaBean.catEntity.nombre}"/> 
                 <p:outputLabel><strong>Activo</strong></p:outputLabel><p:selectBooleanCheckbox id="activocbx" value="#{categoriaBean.catEntity.activo}"/>
                 <p:outputLabel><strong>Descripcion</strong></p:outputLabel><p:inputTextarea  title="descripcion" id="Descripcion" value="#{categoriaBean.catEntity.descripcion}"/>
             </p:panelGrid>
+                          
             
-            <p:panel visible="#{categoriaBean.visible}" style="border: none">
-             <p:commandButton  value="Agregar" actionListener="#{categoriaBean.crear()}" update="@all"/>
-           
-             <p:commandButton  value="limpiar" type="reset" update="@all"/>
-             
+            <p:panel visible="#{categoriaBean.visible}" style="border: none" >
+                <p:commandButton  value="Guardar" actionListener="#{categoriaBean.crear()}" update="@all"/>
             </p:panel>
+            
             <p:panel visible="#{!categoriaBean.visible}" style="border: none">
-            <p:commandButton  value="Cancelar" actionListener="#{categoriaBean.cancelar()}" update="@all"/>
-            <p:commandButton  value="Editar" actionListener="#{categoriaBean.modificar()}"  update="@all"/>
-            <p:commandButton  value="Eliminar" actionListener="#{categoriaBean.eliminar()}"  update="@all"/>
-             
-            </p:panel>
-            
-        </h:form>
-             </p:panel>
-             
-             
-             
-             
+                <componentes:BotonesEdicion manageBean="#{categoriaBean}"/>  
+            </p:panel> 
+                
+        </p:panel>
+     
+    </h:form>
+         
         </f:view>
-        <br/>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        
+         </ui:define>
+            <ui:define name="bottom">
+                 <pm:footer>
+                    Todos los derechos Reservados
+                </pm:footer>
+            </ui:define>
+        </ui:composition>
        
        </h:body>
    </html>

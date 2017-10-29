@@ -16,20 +16,7 @@ import sv.edu.uesocc.ingenieria.prn335_2017.datos.definiciones.Categoria;
 
 
 @Local
-public interface CategoriaFacadeLocal {
+public interface CategoriaFacadeLocal extends AbstractInterface<Categoria> {
 
-    void create(Categoria categoria);
-
-    void edit(Categoria categoria);
-
-    void remove(Categoria categoria);
-
-    Categoria find(Object id);
-     
-    List<Categoria> findAll();
-
-    List<Categoria> findRange(int[] range);
-
-    int count();
     
 }

@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import sv.edu.uesocc.ingenieria.prn335_2017.datos.acceso.AbstractGen;
+import sv.edu.uesocc.ingenieria.prn335_2017.datos.acceso.AbstractInterface;
 
 /**
  *
@@ -20,15 +20,19 @@ public abstract class BeanGenerico<T> implements Serializable {
 
     List<T> lista;
 
+      public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+}
     public void crear() {
         if (getFacadeLocal() != null) {
             try {
                 getFacadeLocal().create(getEntity());
                 llenar();
-                enviarMensaje(false,"Registro creado correctamente.");
+                addMessage("Registro creado correctamente.");
             } catch (Exception ex) {
                 System.out.println("Error: " + ex);
-                enviarMensaje(true,"Error al crear registro creado correctamente.");
+                addMessage("Error al crear registro creado correctamente.");
             }
         }
     }
@@ -39,10 +43,10 @@ public abstract class BeanGenerico<T> implements Serializable {
             try {
                 getFacadeLocal().edit(getEntity());
                 llenar();
-                enviarMensaje(false,"Edicion realizada correctamente.");
+                addMessage("Edicion realizada correctamente.");
             } catch (Exception ex) {
                 System.out.println("Error: " + ex);
-                enviarMensaje(true,"Error al editar registro.");
+                addMessage("Error al editar registro.");
             }
         }
     }
@@ -52,10 +56,10 @@ public abstract class BeanGenerico<T> implements Serializable {
             try {
                 getFacadeLocal().remove(getEntity());
                 llenar();
-                enviarMensaje(false,"Registro eliminado correctamente");
+               addMessage("Registro eliminado correctamente");
             } catch (Exception ex) {
                 System.out.println("Error: " + ex);
-                enviarMensaje(true,"Error al eliminar registro");
+               addMessage("Error al eliminar registro");
             }
         }
     }
@@ -68,16 +72,10 @@ public abstract class BeanGenerico<T> implements Serializable {
         }
     }
 
-    public void enviarMensaje(boolean error, String mensaje) {
-        if (error=false) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", mensaje));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Info", mensaje));
-        }
-    }
+ 
 
    
-    protected abstract AbstractGen<T> getFacadeLocal();
+    protected abstract AbstractInterface<T> getFacadeLocal();
 
     public abstract T getEntity();
 

@@ -5,6 +5,7 @@
  */
 package sv.edu.uesocc.ingenieria.prn335_2017.datos.acceso;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,6 +25,11 @@ public class CategoriaFacade extends AbstractFacade<Categoria> implements Catego
 
     public CategoriaFacade() {
         super(Categoria.class);
+    }
+
+    @Override
+    public List<Categoria> findRange(int desde, int hasta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

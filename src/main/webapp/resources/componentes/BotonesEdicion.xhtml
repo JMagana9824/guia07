@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+    
+    
+    
+<cc:interface>
+    <cc:attribute name="manageBean" />
+           
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        
+       
+     <p:commandButton  value="Editar" actionListener="#{cc.attrs.manageBean.modificar()}"  update="@all"/>
+     <p:commandButton  value="Eliminar" actionListener="#{cc.attrs.manageBean.eliminar()}"  update="@all"/>
+     
+    </cc:implementation>
+</html>
