@@ -99,6 +99,7 @@ public class CategoriaBean extends BeanGenerico<Categoria> implements Serializab
     @Override
     public void crear() {
         super.crear();
+        catEntity= new Categoria();
          
        
     }
@@ -115,19 +116,15 @@ public class CategoriaBean extends BeanGenerico<Categoria> implements Serializab
   
   
      public void cancelar(){
-         //catEntity= new Categoria();
+         catEntity= new Categoria();
        visible=true;
          ver=false;
         
      }
      
-   /*
-     falta arreglar este metodo para funcionamiento del  boton :v
-     */
-     
     public void nuevo(){
-        //catEntity= new Categoria();
-    // visible=true;
+      catEntity= new Categoria();
+    visible=true;
     ver=true;
         
     }
